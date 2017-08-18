@@ -97,7 +97,10 @@ def index():
         if repo.get('action', None):
             for action in repo['action']:
                 subp = subprocess.Popen(action, cwd=repo.get('path', '.'))
-                subp.wait()
+                # If we wait, Github tends to time out, so we will just
+                # assume that any sequential actions will be orchestrated
+                # by a script.
+                # subp.wait()
         return 'OK'
 
 # Check if python version is less than 2.7.7
