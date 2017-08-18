@@ -65,7 +65,8 @@ def index():
 
         repos = json.loads(io.open(REPOS_JSON_PATH, 'r').read())
 
-        payload = json.loads(request.data)
+        payload = request.get_json()
+
         repo_meta = {
             'name': payload['repository']['name'],
             'owner': payload['repository']['owner']['name'],
@@ -88,8 +89,7 @@ def index():
             if key:
                 signature = request.headers.get('X-Hub-Signature').split(
                     '=')[1]
-                if type(key) == unicode:
-                    key = key.encode()
+                key = key.encode()
                 mac = hmac.new(key, msg=request.data, digestmod=sha1)
                 if not compare_digest(mac.hexdigest(), signature):
                     abort(403)
