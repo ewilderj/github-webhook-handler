@@ -3,3 +3,4 @@ bin
 pip-selfcheck.json
 lib
 include
+start.sh
